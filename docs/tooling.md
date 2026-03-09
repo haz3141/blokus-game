@@ -25,5 +25,6 @@
 
 - install dependencies: `pnpm install`
 - run everything locally: `pnpm dev`
+- run everything on the local network: `pnpm dev:network`
 - run all quality checks: `pnpm check`
 - run the mobile smoke flow: `pnpm test:e2e`

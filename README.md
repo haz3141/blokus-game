@@ -39,6 +39,12 @@ pnpm --filter @cornerfall/server dev
 pnpm --filter @cornerfall/web dev
 ```
 
+To expose the app on your local network for phone testing while keeping the default dev mode unchanged:
+
+```bash
+pnpm dev:network
+```
+
 ## Quality Checks
 
 ```bash
