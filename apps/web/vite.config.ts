@@ -56,6 +56,29 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes("/node_modules/three/")) {
+              return "three-vendor";
+            }
+
+            if (
+              id.includes("/node_modules/@react-three/fiber/") ||
+              id.includes("/node_modules/its-fine/") ||
+              id.includes("/node_modules/react-reconciler/") ||
+              id.includes("/node_modules/react-use-measure/") ||
+              id.includes("/node_modules/suspend-react/")
+            ) {
+              return "r3f-vendor";
+            }
+
+            return undefined;
+          }
+        }
+      }
+    },
     server: {
       proxy: {
         "/api": {

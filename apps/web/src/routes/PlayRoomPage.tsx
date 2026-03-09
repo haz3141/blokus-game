@@ -7,7 +7,7 @@ import {
   type TransformKey,
   validateMove,
 } from "@cornerfall/game-core"
-import { useEffect, useRef } from "react"
+import { lazy, Suspense, useEffect, useRef } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { toast } from "sonner"
 
@@ -17,7 +17,12 @@ import { useRoomConnection } from "@/hooks/useRoomConnection"
 import { resolvePlacementFromTap } from "@/lib/game"
 import { getSelectedTransform, useGameUiStore } from "@/store/useGameUiStore"
 
-import { GameView, JoinRoomView, LobbyView, ResultsView } from "./play-room"
+import { JoinRoomView, LobbyView, ResultsView } from "./play-room"
+
+const GameView = lazy(async () => {
+  const module = await import("./play-room/GameView.js")
+  return { default: module.GameView }
+})
 
 function corePlayerIdForSeat(seatIndex: number): `P${number}` {
   return `P${seatIndex + 1}`
@@ -288,52 +293,61 @@ export function PlayRoomPage() {
       ) : null}
 
       {game && isGameActive && snapshot ? (
-        <GameView
-          cameraMode={cameraMode}
-          canConfirm={canConfirm}
-          connectionState={connectionState}
-          currentTurnName={currentTurnName}
-          game={game}
-          isHost={isHost}
-          isLocalTurn={isLocalTurn}
-          localCorePlayer={localCorePlayer}
-          localPlayer={localPlayer}
-          onCellSelect={setPreviewOrigin}
-          onConfirmMove={() => {
-            if (!activePlacement) {
-              return
-            }
-
-            sendMessage({
-              type: "submit_action",
-              roomId,
-              action: {
-                type: "place",
-                pieceId: activePlacement.pieceId,
-                origin: activePlacement.origin,
-                transform: activePlacement.transform,
-              },
-            })
-          }}
-          onPass={() =>
-            sendMessage({
-              type: "submit_action",
-              roomId,
-              action: { type: "pass" },
-            })
+        <Suspense
+          fallback={
+            <LoadingState
+              description="Preparing the board scene and command rail for the active match."
+              title="Loading live board"
+            />
           }
-          onResetPlacement={resetPlacement}
-          onRotateClockwise={rotateClockwise}
-          onRotateCounterClockwise={rotateCounterClockwise}
-          onSelectPiece={(pieceId) => setSelectedPieceId(pieceId)}
-          onSetCameraMode={setCameraMode}
-          onToggleFlip={toggleFlip}
-          previewCells={previewCells}
-          previewValidation={previewValidation}
-          selectedPieceId={selectedPieceId as PlayerState["remainingPieceIds"][number] | null}
-          snapshot={snapshot}
-          startCorner={startCorner}
-        />
+        >
+          <GameView
+            cameraMode={cameraMode}
+            canConfirm={canConfirm}
+            connectionState={connectionState}
+            currentTurnName={currentTurnName}
+            game={game}
+            isHost={isHost}
+            isLocalTurn={isLocalTurn}
+            localCorePlayer={localCorePlayer}
+            localPlayer={localPlayer}
+            onCellSelect={setPreviewOrigin}
+            onConfirmMove={() => {
+              if (!activePlacement) {
+                return
+              }
+
+              sendMessage({
+                type: "submit_action",
+                roomId,
+                action: {
+                  type: "place",
+                  pieceId: activePlacement.pieceId,
+                  origin: activePlacement.origin,
+                  transform: activePlacement.transform,
+                },
+              })
+            }}
+            onPass={() =>
+              sendMessage({
+                type: "submit_action",
+                roomId,
+                action: { type: "pass" },
+              })
+            }
+            onResetPlacement={resetPlacement}
+            onRotateClockwise={rotateClockwise}
+            onRotateCounterClockwise={rotateCounterClockwise}
+            onSelectPiece={(pieceId) => setSelectedPieceId(pieceId)}
+            onSetCameraMode={setCameraMode}
+            onToggleFlip={toggleFlip}
+            previewCells={previewCells}
+            previewValidation={previewValidation}
+            selectedPieceId={selectedPieceId as PlayerState["remainingPieceIds"][number] | null}
+            snapshot={snapshot}
+            startCorner={startCorner}
+          />
+        </Suspense>
       ) : null}
 
       {snapshot && isGameFinished && isJoined ? (

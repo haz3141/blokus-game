@@ -7,6 +7,8 @@
     "dev": "vite",
     "dev:network": "vite --host 0.0.0.0 --port 5173",
     "build": "tsc -b && vite build",
+    "build:sourcemap": "tsc -b && vite build --sourcemap --outDir dist-analyze",
+    "bundle:analyze": "pnpm run build:sourcemap && node ./scripts/analyze-bundle.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "STORYBOOK=1 pnpm exec storybook dev -p 6006",

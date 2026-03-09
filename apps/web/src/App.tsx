@@ -1,9 +1,29 @@
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { AppShell, EmptyState } from "./components/app-shell/index.js";
+import { AppShell, EmptyState, LoadingState } from "./components/app-shell/index.js";
 import { Button } from "./components/ui/button.js";
-import { HomePage } from "./routes/HomePage.js";
-import { PlayRoomPage } from "./routes/PlayRoomPage.js";
+
+const HomePage = lazy(async () => {
+  const module = await import("./routes/HomePage.js");
+  return { default: module.HomePage };
+});
+
+const PlayRoomPage = lazy(async () => {
+  const module = await import("./routes/PlayRoomPage.js");
+  return { default: module.PlayRoomPage };
+});
+
+function RouteFallback() {
+  return (
+    <AppShell centered width="content">
+      <LoadingState
+        description="Loading the current route shell and restoring the latest client state."
+        title="Opening room"
+      />
+    </AppShell>
+  );
+}
 
 function NotFoundPage() {
   return (
@@ -23,10 +43,12 @@ function NotFoundPage() {
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/play/:roomId" element={<PlayRoomPage />} />
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+    <Suspense fallback={<RouteFallback />}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/play/:roomId" element={<PlayRoomPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Suspense>
   );
 }

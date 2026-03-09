@@ -2,7 +2,7 @@ import { Dice5Icon, DownloadIcon, Link2Icon, ShieldCheckIcon, UsersIcon, WifiIco
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { createRoomResponseSchema } from "@cornerfall/protocol";
+import type { CreateRoomResponse } from "@cornerfall/protocol";
 
 import { AppShell } from "../components/app-shell/index.js";
 import { Badge } from "../components/ui/badge.js";
@@ -47,6 +47,22 @@ function parseRoomId(input: string): string | null {
   }
 }
 
+function isCreateRoomResponse(value: unknown): value is CreateRoomResponse {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const candidate = value as Record<string, unknown>;
+  const validPlayerCount = candidate.playerCount === 2 || candidate.playerCount === 4;
+
+  return (
+    typeof candidate.roomId === "string" &&
+    typeof candidate.roomUrl === "string" &&
+    typeof candidate.websocketUrl === "string" &&
+    validPlayerCount
+  );
+}
+
 export function HomePage() {
   const navigate = useNavigate();
   const { canInstall, promptInstall } = useInstallPrompt();
@@ -83,7 +99,11 @@ export function HomePage() {
         throw new Error("Unable to create a room.");
       }
 
-      const payload = createRoomResponseSchema.parse(await response.json());
+      const payload = await response.json();
+      if (!isCreateRoomResponse(payload)) {
+        throw new Error("The room service returned an invalid response.");
+      }
+
       navigate(payload.roomUrl, {
         state: {
           autoJoinName: playerName.trim()
