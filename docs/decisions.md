@@ -43,3 +43,21 @@
 - Decision: create repo-local skills for milestone orchestration, rules review, Worker rooms, mobile PWA QA, R3F board work, and release readiness.
 - Rationale: these workflows are specific enough to be useful across future work on this repo without polluting global skills.
 - Consequences: the skill content and metadata should be maintained when tooling or architecture changes materially.
+
+### Use a dark-first tabletop studio design direction for the post-MVP UI pass
+
+- Decision: the UI refresh will follow a dark-first tabletop studio direction with tactile surfaces, restrained warm accents, and clearer board-vs-meta separation.
+- Rationale: this direction improves readability and desktop hierarchy without losing the current game-first tone or mobile survivability.
+- Consequences: home, lobby, game HUD, and results should all share the same tokenized surface model and typographic hierarchy.
+
+### Adopt a token-first design system with shadcn primitives in the web app
+
+- Decision: add Tailwind v4 and shadcn/ui in `apps/web`, while keeping CSS variables as the design-token source of truth.
+- Rationale: the app needs a reusable primitive layer, but tokens must remain repo-owned so the board scene, shared components, and app layouts stay coherent.
+- Consequences: web tooling gains `components.json`, path aliases, Tailwind integration, and a `src/components` layer; route-level UI should migrate off ad hoc class clusters.
+
+### Add Storybook docs plus accessibility review for shared UI
+
+- Decision: add Storybook with Autodocs and `addon-a11y`, but defer the heavier Storybook interaction-test stack.
+- Rationale: the repo needs isolated UI review and documentation without turning the refactor into a tooling-heavy rewrite.
+- Consequences: shared primitives and game UI wrappers should carry stories, and Playwright remains the main end-to-end interaction safety net.

@@ -37,3 +37,11 @@
 - ready for local demo
 - ready for Cloudflare Worker deployment on the backend
 - ready for static frontend deployment with an API base URL override when needed
+
+## Post-MVP UI Refresh
+
+- [ ] Milestone UI-1: baseline audit, implementation plan, and project-doc updates
+- [ ] Milestone UI-2: tokenized design system and shadcn foundation in `apps/web`
+- [ ] Milestone UI-3: shared primitives and game UI wrappers
+- [ ] Milestone UI-4: desktop-first refactor of home, lobby, game HUD, and results
+- [ ] Milestone UI-5: Storybook, UI docs, desktop Playwright coverage, and final validation
