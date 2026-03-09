@@ -13,7 +13,7 @@ import {
   tapBoardCell
 } from "./support/ui";
 
-test.describe("Cornerfall mobile smoke", () => {
+test.describe("Cornerfall multiplayer smoke", () => {
   test("host can create a room, invite a second player, make an opening move, and reconnect", async ({
     browser,
     page

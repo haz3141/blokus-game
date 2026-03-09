@@ -23,6 +23,12 @@ export default defineConfig({
   outputDir: "test-results/e2e",
   projects: [
     {
+      name: "desktop-chromium",
+      use: {
+        ...devices["Desktop Chrome"]
+      }
+    },
+    {
       name: "mobile-chromium",
       use: {
         ...devices["Pixel 7"]
