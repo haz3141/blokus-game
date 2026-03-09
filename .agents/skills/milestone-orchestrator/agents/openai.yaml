@@ -1,0 +1,7 @@
+interface:
+  display_name: "Milestone Orchestrator"
+  short_description: "Coordinate milestone delivery"
+  default_prompt: "Use $milestone-orchestrator to break a repo task into milestone-level execution steps."
+  icon_small: "../../assets/agent-icon.png"
+  icon_large: "../../assets/agent-icon.png"
+  brand_color: "#f59e0b"

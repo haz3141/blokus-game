@@ -1,0 +1,7 @@
+interface:
+  display_name: "PWA Mobile QA"
+  short_description: "Check mobile-first PWA UX"
+  default_prompt: "Use $pwa-mobile-qa to review installability, offline behavior, and mobile usability."
+  icon_small: "../../assets/agent-icon.png"
+  icon_large: "../../assets/agent-icon.png"
+  brand_color: "#34d399"

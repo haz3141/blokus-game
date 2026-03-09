@@ -1,0 +1,7 @@
+interface:
+  display_name: "Cloudflare Room Worker"
+  short_description: "Build Durable Object rooms"
+  default_prompt: "Use $cloudflare-room-worker to implement or review a Worker plus Durable Object room backend."
+  icon_small: "../../assets/agent-icon.png"
+  icon_large: "../../assets/agent-icon.png"
+  brand_color: "#f87171"

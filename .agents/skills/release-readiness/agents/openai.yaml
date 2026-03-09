@@ -1,0 +1,7 @@
+interface:
+  display_name: "Release Readiness"
+  short_description: "Verify production readiness"
+  default_prompt: "Use $release-readiness to verify checks, docs, and deployment readiness before shipping."
+  icon_small: "../../assets/agent-icon.png"
+  icon_large: "../../assets/agent-icon.png"
+  brand_color: "#facc15"

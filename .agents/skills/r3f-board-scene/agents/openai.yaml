@@ -1,0 +1,7 @@
+interface:
+  display_name: "R3F Board Scene"
+  short_description: "Build touch-first board scenes"
+  default_prompt: "Use $r3f-board-scene to implement or review a touch-first React Three Fiber board scene."
+  icon_small: "../../assets/agent-icon.png"
+  icon_large: "../../assets/agent-icon.png"
+  brand_color: "#a78bfa"
