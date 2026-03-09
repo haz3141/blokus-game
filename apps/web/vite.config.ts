@@ -1,6 +1,11 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 import { VitePWA } from "vite-plugin-pwa";
+
+const srcDir = fileURLToPath(new URL("./src", import.meta.url));
 
 export default defineConfig({
   server: {
@@ -21,6 +26,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    tailwindcss(),
     react(),
     VitePWA({
       registerType: "autoUpdate",
@@ -57,5 +63,10 @@ export default defineConfig({
         navigateFallbackDenylist: [/^\/connect\//, /^\/api\//]
       }
     })
-  ]
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(srcDir)
+    }
+  }
 });

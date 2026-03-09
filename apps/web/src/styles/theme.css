@@ -1,0 +1,131 @@
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg-app: var(--tone-ink-990);
+  --color-bg-canvas: #060b14;
+  --color-bg-panel: rgba(14, 23, 38, 0.78);
+  --color-bg-panel-strong: rgba(10, 18, 31, 0.9);
+  --color-bg-panel-elevated: rgba(24, 35, 54, 0.94);
+  --color-bg-panel-muted: rgba(26, 39, 58, 0.82);
+  --color-border-subtle: rgba(232, 220, 197, 0.12);
+  --color-border-strong: rgba(216, 201, 173, 0.26);
+  --color-text: #f7f1e7;
+  --color-text-muted: rgba(232, 220, 197, 0.72);
+  --color-text-soft: rgba(232, 220, 197, 0.56);
+  --color-text-inverse: #111827;
+  --color-focus-ring: rgba(243, 194, 122, 0.9);
+  --color-scrim: rgba(5, 9, 17, 0.6);
+
+  --color-accent: var(--tone-amber-400);
+  --color-accent-hover: var(--tone-amber-300);
+  --color-accent-strong: var(--tone-orange-400);
+  --color-accent-soft: rgba(226, 171, 88, 0.14);
+  --color-success: var(--tone-emerald-300);
+  --color-warning: var(--tone-gold-300);
+  --color-danger: #f19c74;
+  --color-danger-strong: var(--tone-red-400);
+  --color-info: var(--tone-cyan-300);
+  --color-neutral: rgba(232, 220, 197, 0.16);
+  --color-disabled-bg: rgba(49, 67, 94, 0.52);
+  --color-disabled-text: rgba(232, 220, 197, 0.38);
+
+  --player-1: var(--tone-amber-400);
+  --player-2: var(--tone-cyan-400);
+  --player-3: var(--tone-emerald-400);
+  --player-4: var(--tone-rose-400);
+  --player-1-contrast: #111827;
+  --player-2-contrast: #08111d;
+  --player-3-contrast: #08111d;
+  --player-4-contrast: #08111d;
+
+  --state-turn-active: var(--tone-amber-300);
+  --state-turn-waiting: rgba(232, 220, 197, 0.26);
+  --state-move-valid: var(--tone-emerald-300);
+  --state-move-invalid: #f2a17b;
+  --state-warning: var(--tone-gold-300);
+  --state-success: var(--tone-emerald-300);
+  --state-neutral: rgba(232, 220, 197, 0.16);
+  --state-seat-open: rgba(93, 179, 216, 0.12);
+  --state-seat-occupied: rgba(216, 153, 68, 0.14);
+  --state-seat-local: rgba(226, 171, 88, 0.18);
+  --state-connection-online: var(--tone-emerald-300);
+  --state-connection-reconnecting: var(--tone-gold-300);
+  --state-connection-error: #f19c74;
+
+  --gradient-app:
+    radial-gradient(circle at top left, rgba(226, 171, 88, 0.16), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(93, 179, 216, 0.16), transparent 24%),
+    linear-gradient(180deg, #09101b 0%, #101928 45%, #141f31 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
+
+  --background: var(--color-bg-app);
+  --foreground: var(--color-text);
+  --card: var(--color-bg-panel);
+  --card-foreground: var(--color-text);
+  --popover: var(--color-bg-panel-elevated);
+  --popover-foreground: var(--color-text);
+  --primary: var(--color-accent);
+  --primary-foreground: var(--color-text-inverse);
+  --secondary: var(--color-bg-panel-muted);
+  --secondary-foreground: var(--color-text);
+  --muted: var(--color-neutral);
+  --muted-foreground: var(--color-text-muted);
+  --accent: var(--color-accent-soft);
+  --accent-foreground: var(--color-text);
+  --destructive: var(--color-danger-strong);
+  --border: var(--color-border-subtle);
+  --input: var(--color-border-strong);
+  --ring: var(--color-focus-ring);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --color-bg-app: #f5efe4;
+  --color-bg-canvas: #e9dec7;
+  --color-bg-panel: rgba(255, 250, 240, 0.92);
+  --color-bg-panel-strong: rgba(250, 243, 229, 0.96);
+  --color-bg-panel-elevated: rgba(255, 251, 245, 0.98);
+  --color-bg-panel-muted: rgba(239, 229, 208, 0.92);
+  --color-border-subtle: rgba(53, 42, 30, 0.12);
+  --color-border-strong: rgba(53, 42, 30, 0.2);
+  --color-text: #241b12;
+  --color-text-muted: rgba(36, 27, 18, 0.72);
+  --color-text-soft: rgba(36, 27, 18, 0.56);
+  --color-text-inverse: #f8f4ea;
+  --color-focus-ring: rgba(216, 153, 68, 0.8);
+  --color-scrim: rgba(22, 16, 10, 0.18);
+
+  --color-accent: #bb7d2f;
+  --color-accent-hover: #a76a20;
+  --color-accent-strong: #97551f;
+  --color-accent-soft: rgba(187, 125, 47, 0.12);
+  --color-success: #2e7d59;
+  --color-warning: #9b7a2d;
+  --color-danger: #b04e3d;
+  --color-danger-strong: #9a3e2f;
+  --color-info: #317596;
+  --color-neutral: rgba(36, 27, 18, 0.08);
+  --color-disabled-bg: rgba(70, 52, 35, 0.08);
+  --color-disabled-text: rgba(36, 27, 18, 0.34);
+
+  --background: var(--color-bg-app);
+  --foreground: var(--color-text);
+  --card: var(--color-bg-panel);
+  --card-foreground: var(--color-text);
+  --popover: var(--color-bg-panel-elevated);
+  --popover-foreground: var(--color-text);
+  --primary: var(--color-accent);
+  --primary-foreground: var(--color-text-inverse);
+  --secondary: var(--color-bg-panel-muted);
+  --secondary-foreground: var(--color-text);
+  --muted: var(--color-neutral);
+  --muted-foreground: var(--color-text-muted);
+  --accent: var(--color-accent-soft);
+  --accent-foreground: var(--color-text);
+  --destructive: var(--color-danger-strong);
+  --border: var(--color-border-subtle);
+  --input: var(--color-border-strong);
+  --ring: var(--color-focus-ring);
+}

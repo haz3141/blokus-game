@@ -1,4 +1,4 @@
-export const playerMeshColors = ["#f59e0b", "#38bdf8", "#34d399", "#fb7185"];
+import { playerMeshColors } from "../../../lib/design/tokens.js";
 
 export function colorForOwner(owner: number): string {
   return playerMeshColors[owner] ?? "#64748b";

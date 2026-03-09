@@ -16,6 +16,8 @@ if (!rootElement) {
   throw new Error("Missing root element.");
 }
 
+document.documentElement.dataset.theme = "dark";
+
 createRoot(rootElement).render(
   <StrictMode>
     <BrowserRouter>
