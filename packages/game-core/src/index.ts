@@ -1,1 +1,45 @@
-export const gameCorePlaceholder = "cornerfall-game-core";
+export { DEFAULT_BOARD_SIZE, PIECES, PIECE_ORDER, PLAYER_COLORS } from "./constants";
+export {
+  applyAction,
+  computeScores,
+  createInitialGame,
+  decodeAction,
+  deriveTurnOptions,
+  encodeAction,
+  getLegalPlacements,
+  getPlacedCells,
+  getStartCorner,
+  hashGameState,
+  isGameOver,
+  serializeGameState,
+  validateMove
+} from "./game-core";
+export type {
+  ApplyResult,
+  BoardState,
+  CanonicalGameState,
+  CellOffset,
+  GameConfig,
+  GameEvent,
+  GameState,
+  GameStatus,
+  LegalPlacement,
+  ParseError,
+  Placement,
+  PieceDefinition,
+  PieceId,
+  PlayerAction,
+  PlayerCount,
+  PlayerId,
+  PlayerState,
+  ResolvedGameConfig,
+  ScoreEntry,
+  ScoreSummary,
+  TransformDefinition,
+  TransformKey,
+  TurnOptions,
+  TurnRecord,
+  ValidationCode,
+  ValidationResult,
+  WireAction
+} from "./types";
