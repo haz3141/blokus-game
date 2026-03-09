@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { registerSW } from "virtual:pwa-register";
 
 import App from "./App.js";
+import { AppProviders } from "./components/providers/AppProviders.js";
 import "./index.css";
 
 registerSW({
@@ -20,8 +21,10 @@ document.documentElement.dataset.theme = "dark";
 
 createRoot(rootElement).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <AppProviders>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AppProviders>
   </StrictMode>
 );

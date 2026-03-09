@@ -1,20 +1,23 @@
 import { Route, Routes } from "react-router-dom";
 
+import { AppShell, EmptyState } from "./components/app-shell/index.js";
+import { Button } from "./components/ui/button.js";
 import { HomePage } from "./routes/HomePage.js";
 import { PlayRoomPage } from "./routes/PlayRoomPage.js";
 
 function NotFoundPage() {
   return (
-    <main className="app-shell center-shell">
-      <div className="card-panel">
-        <p className="eyebrow">Cornerfall</p>
-        <h1>Room not found</h1>
-        <p className="muted-copy">The route you opened does not exist in this build.</p>
-        <a className="button-primary" href="/">
-          Back home
-        </a>
-      </div>
-    </main>
+    <AppShell centered width="content">
+      <EmptyState
+        actions={
+          <Button asChild>
+            <a href="/">Back home</a>
+          </Button>
+        }
+        description="The route you opened does not exist in this build."
+        title="Room not found"
+      />
+    </AppShell>
   );
 }
 
