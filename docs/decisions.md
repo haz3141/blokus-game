@@ -14,11 +14,29 @@
 - Rationale: the game is turn-based, low-fanout, and benefits from a single authoritative room actor.
 - Consequences: the local test harness must cover Durable Object session and reconnection behavior.
 
+### Support only 2-player and 4-player rooms in the MVP
+
+- Decision: expose only duel and classic room sizes in the shipped product.
+- Rationale: the request requires 2-player and 4-player configurations, and limiting the surface area keeps the rules, UI, and room validation aligned.
+- Consequences: room creation, protocol schemas, and deployment docs all assume `2 | 4` players.
+
 ### Keep the 3D layer presentational
 
 - Decision: the renderer will visualize canonical state and local previews, but move legality will remain in shared headless logic.
 - Rationale: this prevents client/server drift and keeps rendering code maintainable.
 - Consequences: rules utilities must expose enough information for previews without moving validation into the scene.
+
+### Broadcast full canonical snapshots after every accepted mutation
+
+- Decision: the room actor rebroadcasts full room snapshots rather than incremental patches.
+- Rationale: this keeps reconnect behavior simple, makes desync recovery straightforward, and reduces protocol complexity for the MVP.
+- Consequences: payloads are larger than a patch stream, but the room fanout and turn cadence are low enough for this to be a reasonable tradeoff.
+
+### Auto-join the room creator on redirect to the lobby
+
+- Decision: after creating a room, the web client redirects to the room URL with a short-lived auto-join instruction for the creator.
+- Rationale: this removes friction from the host flow and matches the requirement that room creation and sharing feel immediate.
+- Consequences: guests still explicitly join from the shared URL, while refresh-based reconnect continues to rely on stored room sessions.
 
 ### Configure repo-scoped Codex skills
 

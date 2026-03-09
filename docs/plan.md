@@ -1,24 +1,39 @@
 # Cornerfall Delivery Plan
 
-## Current Milestone
+## Milestones
 
 - [x] Milestone 0: Codex bootstrap, AGENTS guidance, and planning artifacts
-- [ ] Milestone 1: Workspace scaffolding and quality gates
-- [ ] Milestone 2: Shared rules engine and protocol package
-- [ ] Milestone 3: Cloudflare Worker + Durable Object backend
-- [ ] Milestone 4: Mobile-first web app shell and PWA
-- [ ] Milestone 5: 3D board rendering and touch interaction
-- [ ] Milestone 6: Integration, E2E smoke coverage, docs, and polish
+- [x] Milestone 1: Workspace scaffolding and quality gates
+- [x] Milestone 2: Shared rules engine and protocol package
+- [x] Milestone 3: Cloudflare Worker + Durable Object backend
+- [x] Milestone 4: Mobile-first web app shell and PWA
+- [x] Milestone 5: 3D board rendering and touch interaction
+- [x] Milestone 6: Integration, E2E smoke coverage, docs, and polish
 
-## In Progress
+## Delivered Scope
 
-- initialize workspace packages, quality gates, and app skeletons
-- finalize repo-scoped skills and tooling notes
+- `pnpm` TypeScript workspace with `apps/web`, `apps/server`, `packages/game-core`, and `packages/protocol`
+- original Cornerfall branding and legal-safe project copy
+- authoritative Cloudflare Worker room service with Durable Object storage and WebSocket sync
+- shared deterministic rules engine with scoring, passing, endgame, and legal move validation
+- mobile-first React web client with fast room creation, lobby, active game, reconnect, and final-score states
+- presentational React Three Fiber board with top-down and angled camera modes
+- installable PWA manifest and generated service worker for the app shell
+- Vitest coverage for game rules and room lifecycle plus Playwright mobile smoke coverage
 
 ## Verification Log
 
-- pending workspace scaffold checks
+- `pnpm install`
+- `pnpm check`
+- `pnpm test:e2e`
 
-## Next Milestone
+## Multi-Agent Notes
 
-- complete the workspace scaffold and baseline package scripts
+- initial parallel agents were used for scaffolding, core rules, backend, and smoke coverage
+- later integration work was consolidated locally once the shared interfaces stabilized
+
+## Final Status
+
+- ready for local demo
+- ready for Cloudflare Worker deployment on the backend
+- ready for static frontend deployment with an API base URL override when needed
