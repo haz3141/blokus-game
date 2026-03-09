@@ -1,4 +1,5 @@
 import {
+  getStartCorner,
   getPlacedCells,
   type GameState,
   type Placement,
@@ -12,6 +13,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { GameScene } from "../features/game-3d/GameScene.js";
 import { getSelectedTransform, useGameUiStore } from "../store/useGameUiStore.js";
 import { useRoomConnection } from "../hooks/useRoomConnection.js";
+import { resolvePlacementFromTap } from "../lib/game.js";
 
 function corePlayerIdForSeat(seatIndex: number): `P${number}` {
   return `P${seatIndex + 1}`;
@@ -68,13 +70,22 @@ export function PlayRoomPage() {
       ? location.state.autoJoinName
       : null;
   const transform = getSelectedTransform(flipped, rotationIndex);
+  const previewCell = previewOrigin;
   const activePlacement: Placement | null =
-    selectedPieceId && previewOrigin
-      ? {
-          pieceId: selectedPieceId as Placement["pieceId"],
-          origin: previewOrigin,
-          transform: transform as TransformKey
-        }
+    selectedPieceId && previewCell
+      ? game && localPlayer
+        ? resolvePlacementFromTap({
+            game,
+            playerId: corePlayerIdForSeat(localPlayer.seatIndex),
+            pieceId: selectedPieceId as Placement["pieceId"],
+            transform: transform as TransformKey,
+            tappedCell: previewCell
+          })
+        : {
+            pieceId: selectedPieceId as Placement["pieceId"],
+            origin: previewCell,
+            transform: transform as TransformKey
+          }
       : null;
   const previewValidation =
     game && localPlayer && activePlacement
@@ -121,6 +132,10 @@ export function PlayRoomPage() {
   const isGameFinished = snapshot?.status === "finished";
   const currentTurnName =
     snapshot?.players.find((player) => player.playerId === snapshot.currentPlayerId)?.name ?? "Waiting";
+  const startCorner =
+    game && localPlayer && localCorePlayer && !localCorePlayer.hasPlayed
+      ? getStartCorner(game, localPlayer.seatIndex)
+      : null;
   const winnerNames = snapshot?.winnerIds.length
     ? snapshot.winnerIds
         .map((winnerId) => snapshot.players.find((player) => player.playerId === winnerId)?.name ?? winnerId)
@@ -397,6 +412,12 @@ export function PlayRoomPage() {
                 </div>
                 {previewValidation && !previewValidation.ok ? (
                   <p className="danger-note">Preview blocked: {previewValidation.code}</p>
+                ) : null}
+                {startCorner ? (
+                  <p className="muted-copy">
+                    Opening move: tap your start corner at {startCorner.x},{startCorner.y}. The preview
+                    will snap to any legal alignment for the selected transform.
+                  </p>
                 ) : null}
                 {!isLocalTurn ? (
                   <p className="muted-copy">You can preview placements now, but only the active player can commit.</p>
