@@ -26,5 +26,13 @@
 - install dependencies: `pnpm install`
 - run everything locally: `pnpm dev`
 - run everything on the local network: `pnpm dev:network`
+- run shadcn against the web workspace from the repo root: `pnpm shadcn:web -- <args>`
+- run shadcn inside the app workspace directly: `cd apps/web && pnpm dlx shadcn@latest <args>`
 - run all quality checks: `pnpm check`
 - run the mobile smoke flow: `pnpm test:e2e`
+
+## shadcn Workspace Rule
+
+- This repo is a pnpm monorepo, but the shadcn configuration is intentionally app-local in [`apps/web/components.json`](/Users/hazael/Code/blokus-game/apps/web/components.json).
+- Do not add a root `components.json` unless the repo gains a shared UI workspace that is meant to own shadcn primitives.
+- When running shadcn from the repo root, always target `apps/web` through `pnpm shadcn:web -- <args>` rather than guessing.

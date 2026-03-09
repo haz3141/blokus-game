@@ -61,3 +61,9 @@
 - Decision: add Storybook with Autodocs and `addon-a11y`, but defer the heavier Storybook interaction-test stack.
 - Rationale: the repo needs isolated UI review and documentation without turning the refactor into a tooling-heavy rewrite.
 - Consequences: shared primitives and game UI wrappers should carry stories, and Playwright remains the main end-to-end interaction safety net.
+
+### Keep shadcn configuration scoped to `apps/web`
+
+- Decision: keep `apps/web/components.json` as the only authoritative shadcn config while the primitive layer is owned by the web app.
+- Rationale: the repo is a monorepo, but the current component layer is app-local; duplicating config at the root would create install drift rather than shared ownership.
+- Consequences: contributors should run shadcn from `apps/web` or through a repo-root wrapper that targets `apps/web` explicitly.

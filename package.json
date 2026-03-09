@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "pnpm --parallel --filter @cornerfall/server --filter @cornerfall/web dev",
     "dev:network": "pnpm --parallel --filter @cornerfall/server --filter @cornerfall/web dev:network",
+    "shadcn:web": "node ./scripts/shadcn-web.mjs",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
