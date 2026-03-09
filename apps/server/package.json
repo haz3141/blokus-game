@@ -1,0 +1,22 @@
+{
+  "name": "@cornerfall/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --local --port 8787",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint src",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "types": "wrangler types"
+  },
+  "dependencies": {
+    "@cornerfall/game-core": "workspace:*",
+    "@cornerfall/protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260305.0",
+    "wrangler": "^4.39.0"
+  }
+}
