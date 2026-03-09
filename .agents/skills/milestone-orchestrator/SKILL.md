@@ -1,37 +1,34 @@
 ---
 name: milestone-orchestrator
-description: Use this skill when a repo task needs milestone planning, ownership splits, commit boundaries, or checkpoint coordination across multiple agents. It is especially useful for greenfield builds, large feature slices, and multi-package work.
+description: Use when planning or executing a multi-milestone repository task that needs phased delivery, explicit ownership, verification gates, commit boundaries, or child-agent coordination.
 ---
 
 # Milestone Orchestrator
 
-Use this skill when the task spans multiple subsystems and needs an execution order that leaves the repo in a working state after each milestone.
+Use this skill to turn a broad repo task into a small number of concrete milestones that can be executed and verified independently.
 
 ## Workflow
 
-1. Ground in the current repo state before assigning work.
-2. Break the task into milestones that can each end with passing checks.
-3. Assign each milestone a single owner or a disjoint set of child-agent write paths.
-4. Define the verification command for each milestone before implementation starts.
-5. Define atomic conventional commit boundaries before the first edit.
+1. Ground the current repo state before proposing phases.
+2. Split work by subsystem or ownership, not by arbitrary file count.
+3. Define a checkpoint for each milestone:
+   - intended outcome
+   - files or areas owned
+   - commands that must pass
+   - commit message boundary
+4. Prefer parallel child agents only for disjoint write sets.
+5. Keep one integration owner responsible for cross-cutting wiring and final verification.
 
-## Milestone Rules
+## Output Expectations
 
-- Each milestone should be shippable or at least internally coherent.
-- Do not mix root-tooling edits, backend protocol changes, and UI polish in one commit unless they are inseparable.
-- Update `docs/plan.md` at milestone start and milestone finish.
-- Record architectural decisions in `docs/decisions.md` when they affect future implementation choices.
+- Use 3 to 7 milestones for most medium-to-large projects.
+- Each milestone should be decision-complete and safe to commit alone.
+- Every milestone should name the expected verification commands.
+- When agent delegation is used, state which paths each agent owns and which files remain reserved for integration.
 
-## Ownership Rules
+## Guardrails
 
-- Prefer child agents only when write paths can stay disjoint.
-- If two agents need the same files, keep one owner and let the parent integrate.
-- Require each child agent to report changed files, commands run, check results, and integration notes.
-
-## Checkpoint Template
-
-- Goal: one sentence outcome
-- Files/paths owned: explicit directories
-- Checks: exact commands
-- Commit: exact conventional commit message
-- Integration notes: assumptions or cross-package contracts
+- Do not let milestone plans drift into vague themes like "polish later".
+- Do not merge multiple unrelated concerns into one commit boundary.
+- If a milestone cannot be verified independently, split it again.
+- Keep living docs current when milestones change repo structure, tooling, or workflow.

@@ -1,38 +1,34 @@
 ---
 name: cloudflare-room-worker
-description: Use this skill when implementing or reviewing the Cloudflare Worker, Durable Object room state, session resume, room lifecycle, or websocket protocol behavior for multiplayer gameplay.
+description: Use when implementing or reviewing a Cloudflare Worker plus Durable Object room backend with WebSockets, reconnection, authoritative state, room lifecycle, and snapshot broadcasting.
 ---
 
 # Cloudflare Room Worker
 
-Use this skill for `apps/server` and `packages/protocol` changes that affect authoritative multiplayer flow.
+Use this skill for room-based multiplayer backends built on Cloudflare Workers and Durable Objects.
 
-## Architecture Rules
+## Workflow
 
-- One Durable Object owns one room.
-- The server is the only authority allowed to apply moves.
-- Broadcast canonical snapshots with monotonic revisions instead of client-derived patches.
-- Reconnect by room-scoped opaque session token, not by accounts.
+1. Define the room actor state:
+   - room metadata
+   - players and session tokens
+   - canonical game state
+   - revision counter
+2. Keep one Durable Object per room.
+3. Validate every inbound message at the protocol boundary.
+4. Apply game actions only inside the Durable Object against canonical state.
+5. Broadcast canonical snapshots after accepted mutations.
 
-## Room Workflow
+## Backend Rules
 
-1. Create room over HTTP and return the shareable room URL immediately.
-2. Join or resume over WebSocket with `hello` and room-scoped session data.
-3. Start the game only from the host when the minimum player count is met.
-4. Validate every submitted action against current canonical state.
-5. Broadcast one updated snapshot on accepted mutations and a typed rejection on invalid ones.
+- Reconnect with opaque room-scoped session tokens, not accounts.
+- Reject stale or invalid actions with machine-readable codes.
+- Prefer monotonic revision numbers over timing assumptions.
+- Treat full snapshots as the MVP default unless payload size becomes a real problem.
+- Late spectators are optional and should not complicate the core room lifecycle.
 
-## Protocol Rules
+## Verification
 
-- Keep message shapes in `packages/protocol`.
-- Use discriminated unions and runtime validation at the network boundary.
-- Include `roomId`, `revision`, and canonical room state in every authoritative snapshot.
-
-## Test Checklist
-
-- create room
-- join room and assign seats
-- reject invalid or stale actions
-- accept valid moves and increment revision
-- refresh/reconnect with the same session token
-- reject mid-game fresh joins for MVP
+- Test create, join, seat assignment, host start, valid move, invalid move, reconnect, and revision ordering.
+- Prefer local Worker runtime tests and deterministic room fixtures.
+- Wait on revision changes in integration tests instead of sleeping.

@@ -1,27 +1,24 @@
 ---
 name: pwa-mobile-qa
-description: Use this skill when implementing or reviewing mobile-first layout, installability, offline shell behavior, reconnect UX, and touch ergonomics for the web app.
+description: Use when checking a mobile-first PWA for installability, offline shell behavior, touch usability, reconnect states, accessibility basics, and production readiness.
 ---
 
 # PWA Mobile QA
 
-Use this skill for `apps/web` changes that affect mobile usability or PWA behavior.
-
-## QA Priorities
-
-1. Core flow must work on a narrow mobile viewport first.
-2. Tap targets must be forgiving and readable.
-3. Installability must be explicit and non-blocking.
-4. Offline behavior must be honest: shell routes can work, live multiplayer cannot.
-5. Reconnect states must preserve context without hiding stale state.
+Use this skill to review mobile-first web apps that must install cleanly and stay usable on phone browsers.
 
 ## Checklist
 
-- landing page works on mobile width
-- join flow works without keyboard traps
-- action tray stays reachable above mobile browser chrome
-- share/copy interactions are visible and easy to tap
-- manifest includes standalone mode and icons
-- service worker does not pretend live room state is offline-capable
-- reconnect overlay is visible but does not wipe the board immediately
-- contrast and focus states remain acceptable
+- Manifest includes name, theme color, background color, icons, and standalone display.
+- Service worker caches app-shell assets only when live data must stay network-backed.
+- Live multiplayer or websocket routes display a clear online-required state when offline.
+- Primary actions have large tap targets and visible labels.
+- Orientation changes and narrow viewports do not hide required controls.
+- Install prompt behavior is intentional and non-spammy.
+- Contrast, focus states, and reduced-motion behavior are acceptable.
+
+## Testing Guidance
+
+- Use at least one mobile viewport in Playwright.
+- Cover initial load, installability basics, offline shell behavior, reconnect banners, and a core happy-path flow.
+- Prefer semantic selectors and stable test IDs over brittle visual locators.

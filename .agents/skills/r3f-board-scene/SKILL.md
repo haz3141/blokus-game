@@ -1,32 +1,28 @@
 ---
 name: r3f-board-scene
-description: Use this skill when implementing or reviewing the React Three Fiber board scene, camera presets, piece rendering, preview overlays, or touch picking for gameplay presentation.
+description: Use when implementing or reviewing a React Three Fiber board scene for a turn-based strategy game, especially touch-first board picking, stable camera presets, preview overlays, and presentational 3D architecture.
 ---
 
 # R3F Board Scene
 
-Use this skill for `apps/web/src/features/game-3d` work.
+Use this skill for board-game scenes where the 3D layer visualizes canonical state but does not own rule logic.
 
-## Guardrails
+## Scene Boundaries
 
-- Keep the scene presentational only.
-- Do not move rules, transforms, or legality logic into Three code.
-- Prefer deterministic camera presets over freeform controls.
-- Ensure every canvas action has a DOM equivalent elsewhere in the UI.
+- Rendering code may derive meshes, highlights, and previews from plain state.
+- Rule legality, transform normalization, and authoritative move application stay outside the scene.
+- Every canvas action should have a DOM equivalent for accessibility and fallback input.
 
-## Scene Structure
+## Implementation Guidance
 
-- `GameScene` root
-- `BoardGrid`
-- `PlacedPieces`
-- `ActivePiecePreview`
-- `CameraRig`
-- touch-picking helpers in `lib/`
+- Prefer a stable scene root with separate subtrees for grid, placed pieces, previews, and camera rig.
+- Use deterministic camera presets before adding free orbit controls.
+- Optimize for tap-first interactions, not drag-heavy manipulation.
+- Reuse geometry and materials, and keep draw calls low enough for mid-range mobile devices.
 
-## Interaction Rules
+## Review Checklist
 
-- primary flow is piece selection in the HUD, not drag placement
-- board taps update a preview candidate
-- camera modes are `topDown` and `angled`
-- visual state must clearly distinguish legal and illegal preview states
-- keep draw calls low and reuse geometry/materials where possible
+- No rules logic has leaked into Three helpers.
+- Preview state maps exactly to canonical move payloads.
+- Camera movement does not interfere with touch picking.
+- HUD controls and canvas controls stay in sync.

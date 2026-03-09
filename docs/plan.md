@@ -3,7 +3,7 @@
 ## Current Milestone
 
 - [x] Milestone 0: Codex bootstrap, AGENTS guidance, and planning artifacts
-- [x] Milestone 1: Workspace scaffolding and quality gates
+- [ ] Milestone 1: Workspace scaffolding and quality gates
 - [ ] Milestone 2: Shared rules engine and protocol package
 - [ ] Milestone 3: Cloudflare Worker + Durable Object backend
 - [ ] Milestone 4: Mobile-first web app shell and PWA
@@ -12,17 +12,13 @@
 
 ## In Progress
 
-- implement shared game rules and protocol contracts
-- implement authoritative room backend and mobile-first web shell
-- integrate child-agent changes by milestone ownership
+- initialize workspace packages, quality gates, and app skeletons
+- finalize repo-scoped skills and tooling notes
 
 ## Verification Log
 
-- `pnpm lint`
-- `pnpm typecheck`
-- `pnpm test`
-- `pnpm build`
+- pending workspace scaffold checks
 
 ## Next Milestone
 
-- land the shared rules engine and protocol packages with deterministic tests
+- complete the workspace scaffold and baseline package scripts

@@ -1,33 +1,32 @@
 ---
 name: polyomino-rules-review
-description: Use this skill when reviewing or implementing polyomino placement rules, move validation, transforms, scoring, serialization, or deterministic tests in the shared game engine.
+description: Use when reviewing or implementing polyomino board-game rules such as transforms, move legality, corner-touch constraints, edge-touch prohibition, passing, scoring, serialization, and endgame detection.
 ---
 
 # Polyomino Rules Review
 
-Use this skill for `packages/game-core` work and for reviewing any move-related server behavior that depends on rules correctness.
+Use this skill for rule engines and authoritative move validation in corner-placement polyomino games.
 
-## Review Priorities
+## Review Checklist
 
-1. Determinism: the same input state and action must always produce the same result.
-2. Canonical transforms: rotations and flips must be deduplicated per piece.
-3. Legality: bounds, overlap, first-corner coverage, corner-touch requirement, and same-color edge-touch prohibition must all be enforced.
-4. Turn flow: turn advancement, pass legality, endgame detection, and scoring must remain consistent.
-5. Serialization: wire shapes and hashes must depend on canonical ordering only.
+- Piece catalog is complete and represented independently from rendering.
+- Rotation and flip transforms are normalized and duplicate transforms are removed.
+- Placement validation checks bounds, overlap, first-turn corner coverage, own-color corner contact, and own-color edge-contact rejection.
+- Turn flow handles place, pass, blocked players, and end-of-game deterministically.
+- Scoring is derived only from canonical state and piece inventory.
+- Serialization is stable enough for hashing, snapshots, and backend/client agreement.
 
-## Implementation Rules
+## Implementation Guidance
 
-- Keep rendering concerns out of the rules package.
-- Keep transport/session identity out of the rules package.
-- Prefer pure functions and immutable state transitions.
-- Use machine-readable failure codes instead of ad hoc strings.
+- Keep the rules package pure and runtime-agnostic.
+- Prefer immutable apply functions that return the next canonical state.
+- Expose machine-readable rejection codes for UI and server use.
+- Treat client-side legality helpers as advisory only; backend application remains the source of truth.
 
-## Test Checklist
+## Test Expectations
 
-- unique transform counts per piece
-- legal and illegal opening moves
-- later move corner-touch versus edge-touch cases
-- pass rejection when legal moves exist
-- endgame with consecutive passes
-- scoring including completion bonus
-- serialization and hash stability
+- Add deterministic fixtures for 2-player and 4-player starts.
+- Cover transform counts for asymmetric and symmetric pieces.
+- Verify legal and illegal placement matrices.
+- Verify pass legality, turn advancement, scoring, and endgame.
+- Add round-trip serialization or hash-stability tests when canonical wire state changes.

@@ -1,31 +1,23 @@
 ---
 name: release-readiness
-description: Use this skill before shipping a milestone or demo build to verify checks, docs, deployment notes, smoke coverage, and final integration readiness.
+description: Use when preparing a repository for delivery by checking docs, commands, tests, deployment notes, verification evidence, and unresolved risks.
 ---
 
 # Release Readiness
 
-Use this skill near the end of a milestone or before final delivery.
+Use this skill at the end of a substantial task to verify that the repo is coherent, documented, and demo-ready.
 
-## Required Verification
+## Final Pass
 
-- `pnpm lint`
-- `pnpm typecheck`
-- `pnpm test`
-- `pnpm build`
-- `pnpm test:e2e` when the smoke suite exists
+- Run the repo’s required lint, typecheck, test, and build commands.
+- Run any smoke or E2E coverage that materially validates the shipped flow.
+- Confirm setup and run instructions work from a fresh clone perspective.
+- Update architecture, deployment, tooling, and product docs when behavior changed.
+- Record any cut scope or residual risk explicitly instead of leaving silent gaps.
 
-## Repo Readiness Checklist
+## Output Expectations
 
-- docs updated for repo, tooling, workflow, or architecture changes
-- `docs/plan.md` reflects actual milestone status
-- `docs/decisions.md` records material decisions
-- README has accurate local run commands
-- deployment steps match the current repo layout
-- no placeholder TODO graveyard remains in shipped files
-
-## Delivery Notes
-
-- summarize real constraints and cut scope explicitly
-- mention any unverified paths
-- report commands run and results, not just intent
+- Summarize what was built.
+- List exact commands required to run locally.
+- State what was verified versus what remains assumed.
+- Call out any environment constraints, optional follow-ups, or known limitations.
