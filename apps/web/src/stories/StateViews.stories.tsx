@@ -10,7 +10,12 @@ import { StoryGrid } from "./story-frame";
 
 const meta = {
   title: "Shell/States",
-  tags: ["autodocs"]
+  tags: ["autodocs"],
+  parameters: {
+    a11y: {
+      test: "error"
+    }
+  }
 } satisfies Meta;
 
 export default meta;

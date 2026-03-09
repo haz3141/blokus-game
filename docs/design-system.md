@@ -60,5 +60,5 @@ Cornerfall uses a dark tabletop studio direction: slate-heavy surfaces, restrain
 ## shadcn Ownership
 
 - The authoritative shadcn config lives in [`apps/web/components.json`](/Users/hazael/Code/blokus-game/apps/web/components.json).
-- Add or update primitives from `apps/web`, or use the repo-root wrapper `pnpm shadcn:web -- <component-command>`.
+- Add or update primitives from `apps/web`, or use the repo-root wrapper `pnpm shadcn:web <component-command>`.
 - Do not duplicate `components.json` at the repo root while the primitives remain app-owned.

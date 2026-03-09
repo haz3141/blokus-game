@@ -15,7 +15,10 @@ const meta = {
   title: "Shell/App Shell",
   tags: ["autodocs"],
   parameters: {
-    layout: "fullscreen"
+    layout: "fullscreen",
+    a11y: {
+      test: "error"
+    }
   }
 } satisfies Meta;
 

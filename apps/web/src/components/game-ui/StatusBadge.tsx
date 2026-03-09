@@ -9,28 +9,28 @@ export type StatusTone = "danger" | "info" | "neutral" | "success" | "warning"
 
 const toneStyles: Record<StatusTone, CSSProperties> = {
   neutral: {
-    backgroundColor: "rgba(232, 220, 197, 0.08)",
+    backgroundColor: "color-mix(in srgb, var(--color-text-muted) 12%, transparent)",
     borderColor: "var(--color-border-subtle)",
     color: "var(--color-text-muted)",
   },
   info: {
-    backgroundColor: "rgba(93, 179, 216, 0.14)",
-    borderColor: "rgba(93, 179, 216, 0.24)",
+    backgroundColor: "color-mix(in srgb, var(--color-info) 14%, transparent)",
+    borderColor: "color-mix(in srgb, var(--color-info) 24%, var(--color-border-subtle))",
     color: "var(--color-info)",
   },
   success: {
-    backgroundColor: "rgba(115, 181, 148, 0.14)",
-    borderColor: "rgba(115, 181, 148, 0.24)",
+    backgroundColor: "color-mix(in srgb, var(--color-success) 14%, transparent)",
+    borderColor: "color-mix(in srgb, var(--color-success) 24%, var(--color-border-subtle))",
     color: "var(--color-success)",
   },
   warning: {
-    backgroundColor: "rgba(221, 178, 95, 0.14)",
-    borderColor: "rgba(221, 178, 95, 0.24)",
+    backgroundColor: "color-mix(in srgb, var(--color-warning) 14%, transparent)",
+    borderColor: "color-mix(in srgb, var(--color-warning) 24%, var(--color-border-subtle))",
     color: "var(--color-warning)",
   },
   danger: {
-    backgroundColor: "rgba(241, 156, 116, 0.14)",
-    borderColor: "rgba(241, 156, 116, 0.24)",
+    backgroundColor: "color-mix(in srgb, var(--color-danger) 14%, transparent)",
+    borderColor: "color-mix(in srgb, var(--color-danger) 24%, var(--color-border-subtle))",
     color: "var(--color-danger)",
   },
 }

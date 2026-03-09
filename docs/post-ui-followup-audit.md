@@ -31,8 +31,23 @@ Date: 2026-03-09
 - Expand story coverage and stricter a11y expectations for mature shared shell and game UI components.
 - Add one keyboard-oriented desktop smoke path to the existing Playwright coverage.
 
+## Implemented in this follow-up
+
+- Added `pnpm shadcn:web ...` and documented the repo rule that shadcn remains scoped to `apps/web`.
+- Added `pnpm --filter @cornerfall/web bundle:analyze` plus a sourcemap-backed report script.
+- Split the app into route-level chunks and split the active board path again so:
+  - the shared bootstrap chunk is about `335.46 kB` minified instead of `1,384.52 kB`
+  - `HomePage` is about `10.35 kB`
+  - `PlayRoomPage` is about `98.58 kB`
+  - `GameView` is about `38.98 kB`
+  - the heavy 3D dependency is isolated behind the active-game path
+- Replaced the landing page's runtime dependency on protocol schema parsing with a lightweight shape guard.
+- Added stricter state coverage for mature shared shell and game UI stories.
+- Added explicit documentation for the Storybook `radix-ui` metadata warning.
+
 ## Changes intentionally deferred
 
 - Rewriting the app from the `radix-ui` umbrella package to many direct `@radix-ui/*` imports.
 - Large manual chunk maps or a blanket `chunkSizeWarningLimit` increase without first-party evidence.
 - Visual snapshot baselines for the canvas-backed game flow. The current stack is better served by behavior-level smoke coverage unless the rendering path is stabilized further.
+- Eliminating the remaining `three-vendor` warning entirely. After route splitting and targeted manual chunking, the remaining warning is isolated to an optional async chunk of about `718.40 kB` minified and `187.39 kB` gzip that only loads for the active 3D board.

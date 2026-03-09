@@ -66,6 +66,22 @@ export async function maybeEnterName(page: Page, name: string): Promise<void> {
 }
 
 export async function maybeJoinRoom(page: Page, name: string): Promise<void> {
+  await waitForAnyVisible(page, [
+    `[data-testid="${suggestedTestIds.joinRoom}"]`,
+    `[data-testid="${suggestedTestIds.inviteLink}"]`,
+    'button:has-text("Join room")',
+    'button:has-text("Join Room")'
+  ]);
+
+  const joinedLocator = await findVisibleLocator(page, [
+    `[data-testid="${suggestedTestIds.inviteLink}"]`,
+    'button:has-text("Copy link")'
+  ]);
+
+  if (joinedLocator) {
+    return;
+  }
+
   await maybeEnterName(page, name);
 
   const joinTrigger = await findVisibleLocator(page, [
@@ -82,8 +98,18 @@ export async function maybeJoinRoom(page: Page, name: string): Promise<void> {
   }
 }
 
+export async function waitForLandingReady(page: Page): Promise<void> {
+  await waitForAnyVisible(page, [
+    `[data-testid="${suggestedTestIds.playerName}"]`,
+    `[data-testid="${suggestedTestIds.createGame}"]`,
+    'button:has-text("Create game")',
+    'button:has-text("Create Game")'
+  ]);
+}
+
 export async function createRoomFromLanding(page: Page, playerName: string): Promise<string> {
   await page.goto("/");
+  await waitForLandingReady(page);
   await maybeEnterName(page, playerName);
   await clickFirstVisible(page, [
     `[data-testid="${suggestedTestIds.createGame}"]`,
@@ -118,20 +144,31 @@ export async function expectInviteLink(page: Page, roomUrl: string): Promise<voi
 
 export async function expectLobbyReady(page: Page): Promise<void> {
   await waitForAnyVisible(page, [
+    `[data-testid="${suggestedTestIds.inviteLink}"]`,
     `[data-testid="${suggestedTestIds.startGame}"]`,
+    'button:has-text("Copy link")',
     'button:has-text("Start game")',
-    'button:has-text("Start Game")',
-    'text=/waiting for players/i',
-    'text=/lobby/i'
+    'button:has-text("Start Game")'
   ]);
 }
 
 export async function startGame(page: Page): Promise<void> {
-  await clickFirstVisible(page, [
+  const selectors = [
     `[data-testid="${suggestedTestIds.startGame}"]`,
     'button:has-text("Start game")',
     'button:has-text("Start Game")'
-  ]);
+  ];
+
+  for (const selector of selectors) {
+    const locator = page.locator(selector).first();
+    if (await locator.isVisible().catch(() => false)) {
+      await expect(locator).toBeEnabled();
+      await locator.click();
+      return;
+    }
+  }
+
+  throw new Error(`No visible start action found for selectors: ${selectors.join(", ")}`);
 }
 
 export async function expectGameHud(page: Page): Promise<void> {
@@ -144,19 +181,34 @@ export async function expectGameHud(page: Page): Promise<void> {
 }
 
 export async function selectFirstPiece(page: Page): Promise<void> {
-  const pieceLocator = await findVisibleLocator(page, [
+  const selectors = [
     `[data-testid^="${suggestedTestIds.pieceTilePrefix}"]`,
     '[data-piece-id]',
     '[aria-label*="piece" i]',
     'button:has-text("Monomino")',
     'button:has-text("Single")'
-  ]);
+  ];
 
-  if (!pieceLocator) {
-    throw new Error("No selectable piece tile was found.");
+  await expect.poll(async () => {
+    for (const selector of selectors) {
+      if ((await page.locator(selector).count().catch(() => 0)) > 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }).toBe(true);
+
+  for (const selector of selectors) {
+    const locator = page.locator(selector).first();
+    if ((await locator.count().catch(() => 0)) > 0) {
+      await locator.scrollIntoViewIfNeeded();
+      await locator.click();
+      return;
+    }
   }
 
-  await pieceLocator.click();
+  throw new Error("No selectable piece tile was found.");
 }
 
 export async function tapBoardCell(page: Page, x: number, y: number): Promise<void> {
@@ -168,12 +220,37 @@ export async function tapBoardCell(page: Page, x: number, y: number): Promise<vo
 }
 
 export async function confirmMove(page: Page): Promise<void> {
-  await clickFirstVisible(page, [
+  const selectors = [
     `[data-testid="${suggestedTestIds.confirmMove}"]`,
     'button:has-text("Confirm")',
     'button:has-text("Confirm move")',
     'button:has-text("Place piece")'
-  ]);
+  ];
+
+  for (const selector of selectors) {
+    const locator = page.locator(selector).first();
+    if ((await locator.count().catch(() => 0)) > 0) {
+      await locator.scrollIntoViewIfNeeded();
+      await locator.click();
+      return;
+    }
+  }
+
+  throw new Error(`No confirm action found for selectors: ${selectors.join(", ")}`);
+}
+
+export async function tabUntilFocused(page: Page, locator: Locator, maxTabs = 20): Promise<void> {
+  await locator.waitFor({ state: "visible" });
+
+  for (let attempt = 0; attempt < maxTabs; attempt += 1) {
+    if (await locator.evaluate((node) => node === node.ownerDocument.activeElement).catch(() => false)) {
+      return;
+    }
+
+    await page.keyboard.press("Tab");
+  }
+
+  throw new Error(`Unable to reach focus target after ${maxTabs} Tab presses.`);
 }
 
 export async function expectReconnectedState(page: Page): Promise<void> {
